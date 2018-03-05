@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.LoginView"
+    NavigationPage.HasNavigationBar="false">
+	<StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+        <Entry Text="{Binding UserName}" Keyboard="Default" Placeholder="user name" />
+        <Entry Text="{Binding Password}" IsPassword="true" Placeholder="password" />
+        <Button Text="Login" Command="{Binding LoginCommand}" />
+        <Button Text="Register" Command="{Binding RegisterCommand}" />
+    </StackLayout>
+</ContentPage>
