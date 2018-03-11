@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="DienChanApp.Views.OrderView" xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors">
+    <TableView Intent="Form">
+        <TableRoot>
+            <TableSection Title="Customer">
+                <EntryCell Label="First name" Text="{Binding Customer.FirstName}" />
+                <EntryCell Label="Last name" Text="{Binding Customer.LastName}" />
+                <EntryCell Label="Address 1" Text="{Binding Customer.Address1}" />
+                <EntryCell Label="Address 2" Text="{Binding Customer.Address2}" />
+                <EntryCell Label="City" Text="{Binding Customer.City}" />
+                <EntryCell Label="State" Text="{Binding Customer.State}" />
+                <EntryCell Label="Zip code" Text="{Binding Customer.Zip}" />
+                <EntryCell Label="Country" Text="{Binding Customer.Country}" />
+                <EntryCell Label="Email" Text="{Binding Customer.Email}" Keyboard="Email" />
+                <EntryCell Label="Phone" Text="{Binding Customer.Phone}" />
+            </TableSection>
+            <TableSection Title="Order">
+                <EntryCell Label="Order ID" Text="{Binding OrderId}" IsEnabled="false" />
+                <EntryCell Label="Order Date" Text="{Binding OrderDate, StringFormat='{0:D}'}" IsEnabled="false" />
+                <ViewCell>
+                    <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                            <behaviors:EventToCommand EventName="Tapped" Command="{Binding NavigateToItemViewCommand}" CommandParameter="{Binding Items}" />
+                        </behaviors:BehaviorCollection>
+                    </behaviors:Interaction.Behaviors>
+                    <StackLayout Orientation="Horizontal" Padding="13,5">
+                        <Label Text="{Binding Items.Count, StringFormat='Items: {0}'}" VerticalOptions="Center" />
+                        <Label Text="&gt;" VerticalOptions="Center" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                </ViewCell>
+                <EntryCell Label="Sub Total" Text="{Binding SubTotal, StringFormat='{0:C}'}" />
+                <EntryCell Label="Tax" Text="{Binding Tax, StringFormat='{0:C}'}" />
+                <EntryCell Label="Discount" Text="{Binding Discount, StringFormat='{0:C}'}" />
+                <EntryCell Label="Total" Text="{Binding OrderTotal, StringFormat='{0:C}'}" />
+            </TableSection>
+        </TableRoot>
+    </TableView>
+</ContentPage>

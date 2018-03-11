@@ -14,8 +14,6 @@ namespace DienChanApp.Views
 
             _vm = new WelcomeViewModel();
 
-            _vm.Navigation = Navigation;
-
             BindingContext = _vm;
         }
     }

@@ -13,6 +13,7 @@ namespace DienChanApp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            Corcav.Behaviors.Infrastructure.Init();
             LoadApplication(new App());
 
 

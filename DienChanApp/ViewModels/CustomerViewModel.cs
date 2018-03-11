@@ -24,6 +24,10 @@ namespace DienChanApp.ViewModels
             set { SetProperty(ref _lastName, value); }
         }
 
+        public string FullName {
+            get { return FirstName + " " + LastName; }
+        }
+
         private string _email;
         public string Email
         {

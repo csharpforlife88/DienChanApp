@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using DienChanApp.ViewModels;
 using Xamarin.Forms;
 
 namespace DienChanApp.Views
 {
-    public partial class IncomeOrderView : ContentPage
+    public partial class ProductView : ContentPage
     {
-        public IncomeOrderView()
+        public ProductView(ProductViewModel vm = null)
         {
+            BindingContext = vm;
+
             InitializeComponent();
         }
     }

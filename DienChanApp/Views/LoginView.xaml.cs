@@ -12,8 +12,6 @@ namespace DienChanApp.Views
         {
             InitializeComponent();
 
-            _vm.Navigation = Navigation;
-
             BindingContext = _vm;
         }
     }

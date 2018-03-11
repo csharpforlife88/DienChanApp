@@ -13,11 +13,6 @@ namespace DienChanApp
         {
             InitializeComponent();
 
-            if (UseMockDataStore)
-                DependencyService.Register<MockDataStore>();
-            else
-                DependencyService.Register<CloudDataStore>();
-
             if (Device.RuntimePlatform == Device.iOS)
                 MainPage = new NavigationPage(new LoginView());
             else

@@ -1,27 +1,42 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using DienChanApp.Models;
+using DienChanApp.Views;
+using Xamarin.Forms;
 
 namespace DienChanApp.ViewModels
 {
     public class OrderViewModel: BaseViewModel
     {
-        private int _orderId;
-        public int OrderId 
+        public ICommand NavigateToItemViewCommand { get; private set; }
+        public OrderViewModel()
+        {
+            NavigateToItemViewCommand = new Command<ObservableCollection<ItemViewModel>>(vms => OnNavigateToItemView(vms));
+            Items = new ObservableCollection<ItemViewModel>();
+        }
+
+        private async void OnNavigateToItemView(ObservableCollection<ItemViewModel> vms)
+        {
+            await Navigation.PushAsync(new ItemListView(vms));
+        }
+
+        private int? _orderId;
+        public int? OrderId 
         { 
             get { return _orderId; } 
             set { SetProperty(ref _orderId, value); } 
         }
 
-        private Customer _customer;
-        public Customer customer 
+        private CustomerViewModel _customer;
+        public CustomerViewModel Customer 
         {
             get { return _customer; }
             set { SetProperty(ref _customer, value); }
         }
 
-        private DateTime _orderDate;
-        public DateTime OrderDate
+        private DateTime? _orderDate;
+        public DateTime? OrderDate
         {
             get { return _orderDate; }
             set { SetProperty(ref _orderDate, value); }
@@ -34,7 +49,7 @@ namespace DienChanApp.ViewModels
             set { SetProperty(ref _lastUpdate, value); }
         }
 
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<ItemViewModel> Items { get; set; }
 
         private decimal _subTotal;
         public decimal SubTotal
@@ -63,6 +78,5 @@ namespace DienChanApp.ViewModels
             get { return _orderTotal; }
             set{SetProperty(ref _orderTotal, value);}
         }
-
     }
 }

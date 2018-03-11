@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.ProductView">
+    <TableView>
+        <TableRoot>
+            <TableSection>
+                <EntryCell Label="Product ID" Text="{Binding ProductId}" />
+                <EntryCell Label="Product Name" Text="{Binding Name}" />
+                <EntryCell Label="Product Description" Text="{Binding Description}" />
+                <EntryCell Label="Price" Text="{Binding Price}" Keyboard="Numeric"/>
+                <EntryCell Label="Weight" Text="{Binding Weight}" Keyboard="Numeric"/>
+                <EntryCell Label="Category" Text="{Binding Category}" />
+                <EntryCell Label="Image" Text="{Binding Image}" />
+            </TableSection>
+        </TableRoot>
+    </TableView>
+</ContentPage>

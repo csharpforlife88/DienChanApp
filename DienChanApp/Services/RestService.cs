@@ -14,27 +14,38 @@ namespace DienChanApp.Services
         private const string Url = "https://jsonplaceholder.typicode.com/users";
         private static HttpClient _client = new HttpClient();
 
-        public static async Task<UserViewModel> AuthenticateUser(string username, string password)
+        public static async Task<User> AuthenticateUser(string username, string password)
         {
             var content = await _client.GetStringAsync(Url);
 
             var users = JsonConvert.DeserializeObject<List<User>>(Url);
 
-            return MapService.MapUserModelToViewModel(users?.SingleOrDefault());
+            return users?.SingleOrDefault();
         }
+
+        public static List<Product> GetProducts()
+        {
+            return MockRestService.GetProducts();
+        }
+
+        public static List<Order> GetOrders()
+        {
+            return MockRestService.GetOrders();
+        }
+
 
         //Authenticate user
         //Register new user
 
         //Get All Orders
-        //Create new order
-        //Remove order
-        //Edit order
-        //Resend order information
+        //Create new Order
+        //Remove Order
+        //Edit Order
+        //Resend Order information
 
-        //Get All Products
-        //Create new product
-        //Remove product
-        //Edit product
+        //Get All Orders
+        //Create new Order
+        //Remove Order
+        //Edit Order
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="DienChanApp.Views.ProductListView" x:Name="ProductList">
+	<ContentPage.ToolbarItems>
+            <ToolbarItem Icon="plus.png" Text="New" Command="{Binding CreateProductCommand}"/>
+    </ContentPage.ToolbarItems>
+    
+    <StackLayout>
+        <SearchBar Placeholder="Search Product" Text="{Binding SearchText}" />
+        <ListView ItemsSource="{Binding Products}" 
+            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
+            IsPullToRefreshEnabled="true"
+            RefreshCommand="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
+                  HasUnevenRows="true">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="5">
+                            <Image Source="{Binding ImageUrl}" />
+                            <StackLayout HorizontalOptions="StartAndExpand">
+                                <Label Text="{Binding Name}" />
+                                <Label Text="{Binding Price, StringFormat='Price: ${0}'}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
