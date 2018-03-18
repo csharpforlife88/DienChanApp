@@ -42,9 +42,11 @@ namespace DienChanApp.ViewModels
             SelectedProduct = null;
         }
 
-        private async void OnGetItemQuantity()
+        private async void OnAddItem()
         {
-            await DisplayAlert("Demo", "GetItemQuantity", "OK");
+            MessagingCenter.Send(this, "ItemSelected", SelectedProduct);
+
+            await Navigation.PopAsync();
         }
 
         private async void OnDeleteProduct(ProductViewModel o)
@@ -93,7 +95,7 @@ namespace DienChanApp.ViewModels
                 if (value == null) return;
 
                 if (IsAddNewItem)
-                    OnGetItemQuantity();
+                    OnAddItem();
                 else
                     OnShowProduct();
             }

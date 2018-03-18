@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.ItemListView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="DienChanApp.Views.ItemListView" xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors"
+             x:Name="ItemList">
     <ContentPage.ToolbarItems>
-            <ToolbarItem Icon="plus.png" Text="Add" Command="{Binding AddItemCommand}"/>
+        <ToolbarItem Icon="plus.png" Text="Add" Command="{Binding AddItemCommand}" />
     </ContentPage.ToolbarItems>
-
     <StackLayout>
-        <ListView ItemsSource="{Binding Items}" 
-            SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" 
-            IsPullToRefreshEnabled="true"
-            RefreshCommand="{Binding RefreshCommand}"
-            IsRefreshing="{Binding IsRefreshing}"
-                  HasUnevenRows="true">
+        <ListView ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedProduct, Mode=TwoWay}" HasUnevenRows="true">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>                        
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Remove" 
+                                      Command="{Binding Path=BindingContext.RemoveItemCommand, Source={x:Reference ItemList}}" 
+                                      CommandParameter="{Binding .}" IsDestructive="true" />
+                        </ViewCell.ContextActions>
                         <StackLayout Orientation="Horizontal" Padding="5">
                             <Image Source="{Binding ImageUrl}" />
                             <StackLayout HorizontalOptions="StartAndExpand">
                                 <Label Text="{Binding Name}" />
                                 <Label Text="{Binding Price, StringFormat='Price: ${0}'}" />
+                                <Label Text="{Binding Quantity, StringFormat='Quantity: {0}'}" />
                             </StackLayout>
+                            <Stepper VerticalOptions="Center" HorizontalOptions="EndAndExpand" Increment="1" Minimum="1" Value="{Binding Quantity}">
+                            </Stepper>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

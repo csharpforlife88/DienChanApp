@@ -34,7 +34,10 @@ namespace DienChanApp
         public int Quantity
         {
             get { return _quantity; }
-            set { SetProperty(ref _quantity, value); }
+            set { 
+                SetProperty(ref _quantity, value);
+                MessagingCenter.Send(this, "ItemsChanged");
+            }
         }
 
         private decimal _price;

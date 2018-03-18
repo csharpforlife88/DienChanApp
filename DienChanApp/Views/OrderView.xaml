@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="DienChanApp.Views.OrderView" xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="DienChanApp.Views.OrderView" 
+             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors" 
+             xmlns:converters="clr-namespace:DienChanApp.Converters"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CurrencyConverter x:Key="currencyConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <TableView Intent="Form">
         <TableRoot>
             <TableSection Title="Customer">
@@ -21,18 +30,27 @@
                 <ViewCell>
                     <behaviors:Interaction.Behaviors>
                         <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="Tapped" Command="{Binding NavigateToItemViewCommand}" CommandParameter="{Binding Items}" />
+                            <behaviors:EventToCommand EventName="Tapped" Command="{Binding NavigateToItemViewCommand}" />
                         </behaviors:BehaviorCollection>
                     </behaviors:Interaction.Behaviors>
                     <StackLayout Orientation="Horizontal" Padding="13,5">
-                        <Label Text="{Binding Items.Count, StringFormat='Items: {0}'}" VerticalOptions="Center" />
+                        <Label Text="Total Items:" VerticalOptions="Center" WidthRequest="95" />
+                        <Label Text="{Binding TotalItems}" VerticalOptions="Center" />
                         <Label Text="&gt;" VerticalOptions="Center" HorizontalOptions="EndAndExpand" />
                     </StackLayout>
                 </ViewCell>
-                <EntryCell Label="Sub Total" Text="{Binding SubTotal, StringFormat='{0:C}'}" />
-                <EntryCell Label="Tax" Text="{Binding Tax, StringFormat='{0:C}'}" />
-                <EntryCell Label="Discount" Text="{Binding Discount, StringFormat='{0:C}'}" />
-                <EntryCell Label="Total" Text="{Binding OrderTotal, StringFormat='{0:C}'}" />
+                <EntryCell Label="Sub Total" Text="{Binding SubTotal, StringFormat='{0:C}'}" IsEnabled="false" />
+                <EntryCell Label="Tax" Text="{Binding Tax, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
+                <EntryCell Label="Discount" Text="{Binding Discount, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
+                <EntryCell Label="Total" Text="{Binding OrderTotal, StringFormat='{0:C}'}" IsEnabled="false" />
+            </TableSection>
+            <TableSection>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Button Text="Save" Command="{Binding SaveCommand}"/>
+                        <Button Text="Cancel" Command="{Binding CancelCommand}"/>
+                    </StackLayout>
+                    </ViewCell>
             </TableSection>
         </TableRoot>
     </TableView>

@@ -23,23 +23,30 @@ namespace DienChanApp.ViewModels
             DeleteOrderCommand = new Command<OrderViewModel>( o => OnDeleteOrder(o));
             RefreshCommand = new Command(OnRefresh);
 
-            Orders = new ObservableCollection<OrderViewModel>();
-
-            _orderHelper = MapService.ToViewModels(RestService.GetOrders());
-
-            Orders = new ObservableCollection<OrderViewModel>(_orderHelper);
+            RefreshOrderList();
         }
 
         private async void OnCreateOrder()
         {
+            MessagingCenter.Subscribe<OrderViewModel>(this, "OrderListRefresh", RefreshOrderList);
+
             await Navigation.PushAsync(new OrderView());
         }
 
         private async void OnShowOrder()
         {
+            MessagingCenter.Subscribe<OrderViewModel>(this, "OrderListRefresh", RefreshOrderList);
+
             await Navigation.PushAsync(new OrderView(SelectedOrder));
 
             SelectedOrder = null;
+        }
+
+        private void RefreshOrderList(OrderViewModel o = null)
+        {
+            _orderHelper = MapService.ToViewModels(RestService.GetOrders());
+
+            Orders = new ObservableCollection<OrderViewModel>(_orderHelper);
         }
 
         private async void OnDeleteOrder(OrderViewModel o)

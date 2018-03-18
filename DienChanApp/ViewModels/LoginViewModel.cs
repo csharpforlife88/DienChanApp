@@ -33,14 +33,23 @@ namespace DienChanApp.ViewModels
 
         public async void OnLogin()
         {
-            //var user = RestService.AuthenticateUser(UserName, Password);
+            var user = await RestService.AuthenticateUser(UserName, Password);
 
-            //if(user != null)
+            if (user != null)
                 await Navigation.PushAsync(new MainView());
+            else
+            {
+                await DisplayAlert("Warning", "User name or password incorrect!", "OK");
+
+                UserName = "";
+                Password = "";
+            }
         }
 
         public async void OnRegister()
         {
+            return;
+
             await Navigation.PushAsync(new MainView());
         }
     }

@@ -17,6 +17,7 @@
                 <Setter Property="BackgroundColor" Value="Blue"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="WidthRequest" Value="100" />
             </Style>
 		</ResourceDictionary>
 	</Application.Resources>
