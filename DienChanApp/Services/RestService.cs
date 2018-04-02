@@ -6,46 +6,100 @@ using DienChanApp.ViewModels;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace DienChanApp.Services
 {
-    public static class RestService
+    public class RestService
     {
-        private const string Url = "https://jsonplaceholder.typicode.com/users";
-        private static HttpClient _client = new HttpClient();
+        private const string baseUrl = "http://api.dienchanus.com/api";
 
-        public static async Task<User> AuthenticateUser(string username, string password)
+        public async Task<User> AuthenticateUser(string username, string password)
         {
-            var content = await _client.GetStringAsync(Url);
+            using (var client = new HttpClient())
+            {
+                var userinfo = new User
+                {
+                    username = username,
+                    password = ComputeHash(password)
+                };
 
-            var users = JsonConvert.DeserializeObject<List<User>>(Url);
+                var url = $"{baseUrl}/users/GetAuthentication";
 
-            return users?.SingleOrDefault();
+                var json = JsonConvert.SerializeObject(userinfo);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = client.PostAsync(url, content);
+
+                if (response.Result.StatusCode != System.Net.HttpStatusCode.OK) return null;
+
+                var user = JsonConvert.DeserializeObject<User>(await response.Result.Content.ReadAsStringAsync());//.ReadAsAsync<User>().Result;
+
+                return user;
+            }
         }
 
-        public static List<Product> GetProducts()
+        public async Task<List<Product>> GetProducts()
         {
-            return MockRestService.GetProducts();
+            using (var client = new HttpClient())
+            {
+                //var response = await client.GetAsync($"{baseUrl}/products/getproducts");
+
+                //var products = JsonConvert.DeserializeObject<List<Product>>(await response.Content.ReadAsStringAsync());
+
+                var url = "http://api.dienchanus.com/api/products/getproducts";
+
+                var content = client.GetStringAsync(url);
+
+                var products = JsonConvert.DeserializeObject<List<Product>>(content.Result);
+
+                return products;
+            }
         }
 
-        public static List<Order> GetOrders()
+        public async Task<List<Order>> GetOrders()
         {
-            return MockRestService.GetOrders();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{baseUrl}/orders/getorders");
+
+                var orders = JsonConvert.DeserializeObject<List<Order>>(await response.Content.ReadAsStringAsync());
+
+                return orders;
+            }
+        }
+
+        public async Task<HttpResponseMessage> DeleteOrder(int orderId)
+        {
+            var client = new HttpClient();
+
+            var response = await client.DeleteAsync($"{baseUrl}/orders/deleteorder/{orderId}");
+
+            //var result = response.Result.StatusCode;
+
+            return response;
         }
 
 
-        //Authenticate user
-        //Register new user
+        private string ComputeHash(string password)
+        {
+            using (var md5Hash = MD5.Create())
+            {
+                var bytes = Encoding.ASCII.GetBytes(password);
 
-        //Get All Orders
-        //Create new Order
-        //Remove Order
-        //Edit Order
-        //Resend Order information
+                var data = md5Hash.ComputeHash(bytes);
 
-        //Get All Orders
-        //Create new Order
-        //Remove Order
-        //Edit Order
+                var sb = new StringBuilder();
+
+                foreach (var d in data)
+                {
+                    sb.Append(d.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+        }
     }
 }

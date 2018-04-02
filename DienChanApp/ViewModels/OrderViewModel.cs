@@ -116,11 +116,18 @@ namespace DienChanApp.ViewModels
                 
         }
 
-        private int? _orderId;
-        public int? OrderId
+        private int _orderId;
+        public int OrderId
         {
             get { return _orderId; }
             set { SetProperty(ref _orderId, value); }
+        }
+
+        private int _customerId;
+        public int CustomerId
+        {
+            get { return _customerId; }
+            set { SetProperty(ref _customerId, value); }
         }
 
         private CustomerViewModel _customer;
@@ -130,8 +137,8 @@ namespace DienChanApp.ViewModels
             set { SetProperty(ref _customer, value); }
         }
 
-        private DateTime? _orderDate;
-        public DateTime? OrderDate
+        private DateTime _orderDate;
+        public DateTime OrderDate
         {
             get { return _orderDate; }
             set { SetProperty(ref _orderDate, value); }
@@ -185,6 +192,27 @@ namespace DienChanApp.ViewModels
         {
             get { return _orderTotal; }
             set { SetProperty(ref _orderTotal, value); }
+        }
+
+        private bool _active;
+        public bool Active
+        {
+            get { return _active; }
+            set { SetProperty(ref _active, value); }
+        }
+
+        private DateTime _updateDate;
+        public DateTime UpdateDate
+        {
+            get { return _updateDate; }
+            set { SetProperty(ref _updateDate, value); }
+        }
+
+        private bool _isItemUpdate;
+        public bool IsItemUpdate
+        {
+            get { return _isItemUpdate; }
+            set { SetProperty(ref _isItemUpdate, value); }
         }
 
         private int _totalItems;

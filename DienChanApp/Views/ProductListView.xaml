@@ -18,7 +18,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" Padding="5">
-                            <Image Source="{Binding ImageUrl}" />
+                            <Image Source="{Binding ImageUrl}" WidthRequest="50" HeightRequest="50"/>
                             <StackLayout HorizontalOptions="StartAndExpand">
                                 <Label Text="{Binding Name}" />
                                 <Label Text="{Binding Price, StringFormat='Price: ${0}'}" />

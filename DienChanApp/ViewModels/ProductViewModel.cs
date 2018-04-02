@@ -1,4 +1,6 @@
 ﻿using System;
+using DienChanApp.Models;
+
 namespace DienChanApp.ViewModels
 {
     public class ProductViewModel: BaseViewModel
@@ -38,8 +40,15 @@ namespace DienChanApp.ViewModels
             set { SetProperty(ref _weight, value); }
         }
 
-        private string _category;
-        public string Category
+        private int _categoryId;
+        public int CategoryId
+        {
+            get { return _categoryId; }
+            set { SetProperty(ref _categoryId, value); }
+        }
+
+        private Category _category;
+        public Category Category
         {
             get { return _category; }
             set { SetProperty(ref _category, value); }
@@ -50,6 +59,20 @@ namespace DienChanApp.ViewModels
         {
             get { return _imageUrl; }
             set { SetProperty(ref _imageUrl, value); }
+        }
+
+        private string _image;
+        public string Image
+        {
+            get { return _image; }
+            set { SetProperty(ref _image, value); }
+        }
+
+        private bool _isImageUpdate;
+        public bool IsImageUpdate
+        {
+            get { return _isImageUpdate; }
+            set { SetProperty(ref _isImageUpdate, value);}
         }
     }
 }

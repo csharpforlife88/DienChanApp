@@ -98,15 +98,6 @@
     <Reference Include="Xamarin.Android.Support.v7.MediaRouter">
       <HintPath>..\packages\Xamarin.Android.Support.v7.MediaRouter.25.4.0.2\lib\MonoAndroid70\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="Prism">
       <HintPath>..\packages\Prism.Core.7.0.0.396\lib\netstandard2.0\Prism.dll</HintPath>
     </Reference>
@@ -136,6 +127,22 @@
     </Reference>
     <Reference Include="Corcav.Behaviors">
       <HintPath>..\packages\Corcav.Behaviors.2.3.7\lib\dotnet\Corcav.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="Newtonsoft.Json.Bson">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.1\lib\netstandard1.3\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\System.Net.Http.Formatting.Extension.5.2.3.0\lib\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

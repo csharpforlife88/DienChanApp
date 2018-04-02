@@ -16,6 +16,31 @@ namespace DienChanApp
             set { SetProperty(ref _itemId, value); }
         }
 
+        private int _quantity;
+        public int Quantity
+        {
+            get { return _quantity; }
+            set
+            {
+                SetProperty(ref _quantity, value);
+                MessagingCenter.Send(this, "ItemsChanged");
+            }
+        }
+
+        private DateTime _updateDate;
+        public DateTime UpdateDate
+        {
+            get { return _updateDate; }
+            set { SetProperty(ref _updateDate, value); }
+        }
+
+        private int _productId;
+        public int ProductId
+        {
+            get { return _productId; }
+            set { SetProperty(ref _productId, value); }
+        }
+
         private string _name;
         public string Name
         {
@@ -30,41 +55,17 @@ namespace DienChanApp
             set { SetProperty(ref _description, value); }
         }
 
-        private int _quantity;
-        public int Quantity
-        {
-            get { return _quantity; }
-            set { 
-                SetProperty(ref _quantity, value);
-                MessagingCenter.Send(this, "ItemsChanged");
-            }
-        }
-
         private decimal _price;
         public decimal Price{
             get { return _price; }
             set{SetProperty(ref _price, value);}
         }
 
-        private string _category;
-        public string Category
+        private decimal _weight;
+        public decimal Weight
         {
-            get { return _category; }
-            set{SetProperty(ref _category, value);}
-        }
-
-        private DateTime _updateDate;
-        public DateTime UpdateDate
-        {
-            get { return _updateDate; }
-            set{SetProperty(ref _updateDate,value);}
-        }
-
-        private int _productId;
-        public int ProductId
-        {
-            get { return _productId; }
-            set{SetProperty(ref _productId, value);}
+            get { return _weight; }
+            set { SetProperty(ref _weight, value); }
         }
 
         private string _imageUrl;
@@ -72,6 +73,13 @@ namespace DienChanApp
         {
             get { return _imageUrl; }
             set { SetProperty(ref _imageUrl, value); }
+        }
+
+        private string _categoryName;
+        public string CategoryName
+        {
+            get { return _categoryName; }
+            set { SetProperty(ref _categoryName, value); }
         }
     }
 }

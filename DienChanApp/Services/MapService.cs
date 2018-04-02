@@ -13,10 +13,14 @@ namespace DienChanApp.Services
             return new User
             {
                 id = vm.ID,
-                name = vm.Name,
-                phone = vm.Phone,
+                username = vm.UserName,
+                password = vm.Password,
+                permissionId = vm.PermissionId,
+                permission = vm.Permission,
+                firstName = vm.FirstName,
+                lastName = vm.LastName,
                 email = vm.Email,
-                company = vm.Company
+                createdDate = vm.CreatedDate
             };
         }
 
@@ -25,10 +29,14 @@ namespace DienChanApp.Services
             return new UserViewModel
             {
                 ID = m.id,
-                Name = m.name,
-                Phone = m.phone,
+                UserName = m.username,
+                Password = m.password,
+                PermissionId = m.permissionId,
+                Permission = m.permission,
+                FirstName = m.firstName,
+                LastName = m.lastName,
                 Email = m.email,
-                Company = m.company
+                CreatedDate = m.createdDate
             };
         }
 
@@ -37,13 +45,14 @@ namespace DienChanApp.Services
             return new Item
             {
                 itemId = vm.ItemId,
-                name = vm.Name,
-                description = vm.Description,
                 quantity = vm.Quantity,
-                price = vm.Price,
-                category = vm.Category,
                 updateDate = vm.UpdateDate,
                 productId = vm.ProductId,
+                name = vm.Name,
+                categoryName = vm.CategoryName,
+                description = vm.Description,
+                unitPrice = vm.Price,
+                weight = vm.Weight,
                 imageUrl = vm.ImageUrl
             };
         }
@@ -61,13 +70,14 @@ namespace DienChanApp.Services
             return new ItemViewModel
             {
                 ItemId = m.itemId,
-                Name = m.name,
-                Description = m.description,
                 Quantity = m.quantity,
-                Price = m.price,
-                Category = m.category,
                 UpdateDate = m.updateDate,
                 ProductId = m.productId,
+                Name = m.name,
+                CategoryName = m.categoryName,
+                Description = m.description,
+                Price = m.unitPrice,
+                Weight = m.weight,
                 ImageUrl = m.imageUrl
             };
         }
@@ -88,13 +98,14 @@ namespace DienChanApp.Services
                 firstName = vm.FirstName,
                 lastName = vm.LastName,
                 email = vm.Email,
-                phone = vm.Phone,
+                phoneNumber = vm.Phone,
                 address1 = vm.Address1,
                 address2 = vm.Address2,
                 city = vm.City,
                 state = vm.State,
                 zip = vm.Zip,
-                country = vm.Country
+                country = vm.Country,
+                updateDate = vm.UpdateDate
             };
         }
 
@@ -105,13 +116,14 @@ namespace DienChanApp.Services
                 FirstName = m.firstName,
                 LastName = m.lastName,
                 Email = m.email,
-                Phone = m.phone,
+                Phone = m.phoneNumber,
                 Address1 = m.address1,
                 Address2 = m.address2,
                 City = m.city,
                 State = m.state,
                 Zip = m.zip,
-                Country = m.country
+                Country = m.country,
+                UpdateDate = m.updateDate
             };
         }
 
@@ -119,6 +131,7 @@ namespace DienChanApp.Services
             return new Order
             {
                 orderId = vm.OrderId,
+                customerId = vm.CustomerId,
                 customer = ToModel(vm.Customer),
                 orderDate = vm.OrderDate,
                 lastUpdate = vm.LastUpdate,
@@ -126,7 +139,10 @@ namespace DienChanApp.Services
                 subTotal = vm.SubTotal,
                 tax = vm.Tax,
                 discount = vm.Discount,
-                orderTotal = vm.OrderTotal
+                orderTotal = vm.OrderTotal,
+                active = vm.Active,
+                updateDate = vm.UpdateDate,
+                isItemUpdate = vm.IsItemUpdate
             };
         }
 
@@ -134,6 +150,7 @@ namespace DienChanApp.Services
             return new OrderViewModel
             {
                 OrderId = m.orderId,
+                CustomerId = m.customerId,
                 Customer = ToViewModel(m.customer),
                 OrderDate = m.orderDate,
                 LastUpdate = m.lastUpdate,
@@ -141,7 +158,9 @@ namespace DienChanApp.Services
                 SubTotal = m.subTotal,
                 Tax = m.tax,
                 Discount = m.discount,
-                OrderTotal = m.orderTotal
+                OrderTotal = m.orderTotal,
+                Active = m.active,
+                UpdateDate = m.updateDate
             };
         }
 
@@ -162,6 +181,7 @@ namespace DienChanApp.Services
                 description = vm.Description,
                 price = vm.Price,
                 weight = vm.Weight,
+                categoryId = vm.CategoryId,
                 category = vm.Category,
                 imageUrl = vm.ImageUrl
             };
@@ -185,6 +205,7 @@ namespace DienChanApp.Services
                 Description = m.description,
                 Price = m.price,
                 Weight = m.weight,
+                CategoryId = m.categoryId,
                 Category = m.category,
                 ImageUrl = m.imageUrl
             };   

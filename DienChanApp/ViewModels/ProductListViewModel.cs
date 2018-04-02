@@ -14,6 +14,7 @@ namespace DienChanApp.ViewModels
         public ICommand CreateProductCommand { get; private set; }
         public ICommand DeleteProductCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
+        private static readonly RestService _restSerive = new RestService();
         private List<ProductViewModel> _productHelper;
 
 
@@ -25,9 +26,14 @@ namespace DienChanApp.ViewModels
 
             Products = new ObservableCollection<ProductViewModel>();
 
-            _productHelper = MapService.ToViewModels(RestService.GetProducts());
+            GetProducts();
 
             Products = new ObservableCollection<ProductViewModel>(_productHelper);
+        }
+
+        private async void GetProducts()
+        {
+            _productHelper  = MapService.ToViewModels(await _restSerive.GetProducts());   
         }
 
         private async void OnCreateProduct()

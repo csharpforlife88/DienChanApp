@@ -65,7 +65,7 @@ namespace DienChanApp.ViewModels
                     Description = product.Description,
                     Quantity = 1,
                     Price = product.Price,
-                    Category = product.Category,
+                    //Category = product.Category,
                     UpdateDate = DateTime.Now,
                     ProductId = product.ProductId,
                     ImageUrl = product.ImageUrl

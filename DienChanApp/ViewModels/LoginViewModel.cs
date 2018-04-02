@@ -11,6 +11,8 @@ namespace DienChanApp.ViewModels
         public ICommand LoginCommand { get; private set; }
         public ICommand RegisterCommand { get; private set; }
 
+        private static readonly RestService _restService = new RestService();
+
         public LoginViewModel()
         {
             LoginCommand = new Command(OnLogin);
@@ -33,9 +35,9 @@ namespace DienChanApp.ViewModels
 
         public async void OnLogin()
         {
-            var user = await RestService.AuthenticateUser(UserName, Password);
+            var user = await _restService.AuthenticateUser(UserName, Password);
 
-            if (user != null)
+            if (user != null && user.username == UserName)
                 await Navigation.PushAsync(new MainView());
             else
             {

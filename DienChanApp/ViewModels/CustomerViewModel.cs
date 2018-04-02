@@ -83,5 +83,12 @@ namespace DienChanApp.ViewModels
             get { return _country; }
             set { SetProperty(ref _country, value); }
         }
+
+        private DateTime _updateDate;
+        public DateTime UpdateDate
+        {
+            get { return _updateDate; }
+            set { SetProperty(ref _updateDate, value); }
+        }
     }
 }

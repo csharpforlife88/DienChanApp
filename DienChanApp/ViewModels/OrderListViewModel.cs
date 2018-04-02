@@ -15,6 +15,7 @@ namespace DienChanApp.ViewModels
         public ICommand DeleteOrderCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
         private List<OrderViewModel> _orderHelper;
+        private static readonly RestService _restService = new RestService();
 
 
         public OrderListViewModel()
@@ -42,9 +43,9 @@ namespace DienChanApp.ViewModels
             SelectedOrder = null;
         }
 
-        private void RefreshOrderList(OrderViewModel o = null)
+        private async void RefreshOrderList(OrderViewModel o = null)
         {
-            _orderHelper = MapService.ToViewModels(RestService.GetOrders());
+            _orderHelper = MapService.ToViewModels(await _restService.GetOrders());
 
             Orders = new ObservableCollection<OrderViewModel>(_orderHelper);
         }
@@ -53,14 +54,29 @@ namespace DienChanApp.ViewModels
         {
             if (!(await DisplayAlert("Confirmation", $"Are you sure to delete order {o.OrderId}?", "Yes", "No"))) return;
 
-            _orderHelper.Remove(o);
+            var result = await _restService.DeleteOrder(o.OrderId);
 
-            OnSearchOrder();
+            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                OnRefresh();
+
+                await DisplayAlert("Warning", "Order delete failed!", "OK");
+            }
+            else
+            {
+                _orderHelper.Remove(o);
+
+                OnSearchOrder();
+
+                await DisplayAlert("Confirmation", "Order deleted successfully!", "OK");
+            }
         }
 
         private void OnRefresh()
         {
             IsRefreshing = true;
+
+            RefreshOrderList();
 
             OnSearchOrder();
 
