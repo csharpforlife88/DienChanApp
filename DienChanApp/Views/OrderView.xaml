@@ -1,57 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             x:Class="DienChanApp.Views.OrderView" 
-             xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors" 
-             xmlns:converters="clr-namespace:DienChanApp.Converters"
-             >
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.OrderView" xmlns:behaviors="clr-namespace:Corcav.Behaviors;assembly=Corcav.Behaviors" xmlns:converters="clr-namespace:DienChanApp.Converters">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:CurrencyConverter x:Key="currencyConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <TableView Intent="Form">
-        <TableRoot>
-            <TableSection Title="Customer">
-                <EntryCell Label="First name" Text="{Binding Customer.FirstName}" />
-                <EntryCell Label="Last name" Text="{Binding Customer.LastName}" />
-                <EntryCell Label="Address 1" Text="{Binding Customer.Address1}" />
-                <EntryCell Label="Address 2" Text="{Binding Customer.Address2}" />
-                <EntryCell Label="City" Text="{Binding Customer.City}" />
-                <EntryCell Label="State" Text="{Binding Customer.State}" />
-                <EntryCell Label="Zip code" Text="{Binding Customer.Zip}" />
-                <EntryCell Label="Country" Text="{Binding Customer.Country}" />
-                <EntryCell Label="Email" Text="{Binding Customer.Email}" Keyboard="Email" />
-                <EntryCell Label="Phone" Text="{Binding Customer.Phone}" />
-            </TableSection>
-            <TableSection Title="Order">
-                <EntryCell Label="Order ID" Text="{Binding OrderId}" IsEnabled="false" />
-                <EntryCell Label="Order Date" Text="{Binding OrderDate, StringFormat='{0:D}'}" IsEnabled="false" />
-                <ViewCell>
-                    <behaviors:Interaction.Behaviors>
-                        <behaviors:BehaviorCollection>
-                            <behaviors:EventToCommand EventName="Tapped" Command="{Binding NavigateToItemViewCommand}" />
-                        </behaviors:BehaviorCollection>
-                    </behaviors:Interaction.Behaviors>
-                    <StackLayout Orientation="Horizontal" Padding="13,5">
-                        <Label Text="Total Items:" VerticalOptions="Center" WidthRequest="95" />
-                        <Label Text="{Binding TotalItems}" VerticalOptions="Center" />
-                        <Label Text="&gt;" VerticalOptions="Center" HorizontalOptions="EndAndExpand" />
-                    </StackLayout>
-                </ViewCell>
-                <EntryCell Label="Sub Total" Text="{Binding SubTotal, StringFormat='{0:C}'}" IsEnabled="false" />
-                <EntryCell Label="Tax" Text="{Binding Tax, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
-                <EntryCell Label="Discount" Text="{Binding Discount, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
-                <EntryCell Label="Total" Text="{Binding OrderTotal, StringFormat='{0:C}'}" IsEnabled="false" />
-            </TableSection>
-            <TableSection>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
-                        <Button Text="Save" Command="{Binding SaveCommand}"/>
-                        <Button Text="Cancel" Command="{Binding CancelCommand}"/>
-                    </StackLayout>
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <TableView Intent="Form" HasUnevenRows="true">
+            <TableRoot>
+                <TableSection Title="Customer">
+                    <EntryCell Label="First name" Text="{Binding Customer.FirstName}" />
+                    <EntryCell Label="Last name" Text="{Binding Customer.LastName}" />
+                    <EntryCell Label="Address 1" Text="{Binding Customer.Address1}" />
+                    <EntryCell Label="Address 2" Text="{Binding Customer.Address2}" />
+                    <EntryCell Label="City" Text="{Binding Customer.City}" />
+                    <EntryCell Label="State" Text="{Binding Customer.State}" />
+                    <EntryCell Label="Zip code" Text="{Binding Customer.Zip}" />
+                    <EntryCell Label="Country" Text="{Binding Customer.Country}" />
+                    <EntryCell Label="Email" Text="{Binding Customer.Email}" Keyboard="Email" />
+                    <EntryCell Label="Phone" Text="{Binding Customer.Phone}" />
+                </TableSection>
+                <TableSection Title="Order">
+                    <EntryCell Label="Order ID" Text="{Binding OrderId}" IsEnabled="false" />
+                    <EntryCell Label="Order Date" Text="{Binding OrderDate, StringFormat='{0:D}'}" IsEnabled="false" />
+                    <ViewCell>
+                        <behaviors:Interaction.Behaviors>
+                            <behaviors:BehaviorCollection>
+                                <behaviors:EventToCommand EventName="Tapped" Command="{Binding NavigateToItemViewCommand}" />
+                            </behaviors:BehaviorCollection>
+                        </behaviors:Interaction.Behaviors>
+                        <StackLayout Orientation="Horizontal" Padding="13,5">
+                            <Label Text="Total Items:" VerticalOptions="Center" WidthRequest="95" />
+                            <Label Text="{Binding TotalItems}" VerticalOptions="Center" />
+                            <Label Text="&gt;" VerticalOptions="Center" HorizontalOptions="EndAndExpand" />
+                        </StackLayout>
                     </ViewCell>
-            </TableSection>
-        </TableRoot>
-    </TableView>
+                    <EntryCell Label="Sub Total" Text="{Binding SubTotal, StringFormat='{0:C}'}" IsEnabled="false" />
+                    <EntryCell Label="Tax" Text="{Binding Tax, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
+                    <EntryCell Label="Discount" Text="{Binding Discount, Converter={StaticResource currencyConverter}}" Keyboard="Numeric" />
+                    <EntryCell Label="Total" Text="{Binding OrderTotal, StringFormat='{0:C}'}" IsEnabled="false" />
+                </TableSection>
+                <TableSection>
+                    <ViewCell Height="110">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start">
+                            <Button Text="Save" Command="{Binding SaveCommand}" />
+                            <Button Text="Cancel" Command="{Binding CancelCommand}" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+        <ActivityIndicator BackgroundColor="Black" Color="White" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0.5, 0.5, 25, 25" AbsoluteLayout.LayoutFlags="PositionProportional">
+        </ActivityIndicator>
+    </AbsoluteLayout>
 </ContentPage>

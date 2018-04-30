@@ -20,6 +20,12 @@ namespace DienChanApp.Models
         public string email { get; set; }
 
         public DateTime createdDate { get; set; }
+
+        public string token { get; set; }
+
+        public string profileImageUrl { get; set; }
+
+        public bool isProfileImageChange { get; set; }
     }
 
     public class UserPermission

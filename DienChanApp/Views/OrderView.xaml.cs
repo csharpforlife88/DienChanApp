@@ -9,7 +9,7 @@ namespace DienChanApp.Views
     {
         public OrderView(OrderViewModel vm = null)
         {
-            BindingContext = vm ?? new OrderViewModel();
+            BindingContext = vm ?? new OrderViewModel{OrderDate = DateTime.Now};
 
             InitializeComponent();
         }

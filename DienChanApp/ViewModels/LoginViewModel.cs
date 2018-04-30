@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DienChanApp.Services;
 using DienChanApp.Views;
@@ -10,8 +11,6 @@ namespace DienChanApp.ViewModels
     {
         public ICommand LoginCommand { get; private set; }
         public ICommand RegisterCommand { get; private set; }
-
-        private static readonly RestService _restService = new RestService();
 
         public LoginViewModel()
         {
@@ -33,26 +32,48 @@ namespace DienChanApp.ViewModels
             set { SetProperty(ref _password, value); }
         }
 
-        public async void OnLogin()
+        public void OnLogin()
         {
-            var user = await _restService.AuthenticateUser(UserName, Password);
-
-            if (user != null && user.username == UserName)
-                await Navigation.PushAsync(new MainView());
-            else
+            if(string.IsNullOrEmpty(UserName))
             {
-                await DisplayAlert("Warning", "User name or password incorrect!", "OK");
+                DisplayAlert("Warning", "Please enter your username!", "OK");
 
-                UserName = "";
-                Password = "";
+                return;
             }
+
+            if(string.IsNullOrEmpty(Password))
+            {
+                DisplayAlert("Warning", "Please enter your password!", "OK");
+
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                IsBusy = true;
+
+                var user = await _restService.AuthenticateUser(UserName, Password);
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (user != null && user.username == UserName)
+                        await Navigation.PushAsync(new MainView());
+                    else
+                    {
+                        await DisplayAlert("Warning", "User name or password incorrect!", "OK");
+
+                        UserName = "";
+                        Password = "";
+                    }
+                });
+
+                IsBusy = false;
+            });
         }
 
         public async void OnRegister()
         {
-            return;
-
-            await Navigation.PushAsync(new MainView());
+            await Navigation.PushAsync(new RegisterView());
         }
     }
 }

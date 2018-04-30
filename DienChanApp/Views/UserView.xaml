@@ -1,5 +1,44 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.UserView">
-	<ContentPage.Content>
-	</ContentPage.Content>
+    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Padding="5,5">
+        <TableView Intent="Form" HasUnevenRows="true">
+            <TableRoot>
+                <TableSection Title="Signup Information">
+                    <EntryCell Label="First name" Text="{Binding FirstName}" Placeholder="First name" IsEnabled="false"/>
+                    <EntryCell Label="Last name" Text="{Binding LastName}" Placeholder="Last name" IsEnabled="false"/>
+                    <EntryCell Label="Email" Text="{Binding Email}" Placeholder="Email" IsEnabled="false">
+                        <EntryCell.Keyboard>
+                            <Keyboard x:FactoryMethod="Create">
+                                <x:Arguments>
+                                    <KeyboardFlags>None</KeyboardFlags>
+                                </x:Arguments>
+                            </Keyboard>
+                        </EntryCell.Keyboard>
+                    </EntryCell>
+                    <EntryCell Label="Username" Text="{Binding UserName}" Placeholder="Username" IsEnabled="false">
+                        <EntryCell.Keyboard>
+                            <Keyboard x:FactoryMethod="Create">
+                                <x:Arguments>
+                                    <KeyboardFlags>None</KeyboardFlags>
+                                </x:Arguments>
+                            </Keyboard>
+                        </EntryCell.Keyboard>
+                    </EntryCell>
+<!--                    <ViewCell>
+                        <StackLayout Padding="13,5">
+                            <Entry Text="{Binding CurrentPassword}" IsPassword="true" Placeholder="Current Password" />
+                            <Entry Text="{Binding Password}" IsPassword="true" Placeholder="Password" />
+                            <Entry Text="{Binding RetypePassword}" IsPassword="true" Placeholder="Re-type password" />
+                        </StackLayout>
+                    </ViewCell>-->
+                    <ViewCell Height="110">
+                        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="13,5">
+<!--                            <Button Text="Update" Command="{Binding UpdateCommand}" IsVisible="false"/>-->
+                            <Button Text="Logout" Command="{Binding LogoutCommand}" BackgroundColor="Red" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+    </StackLayout>
 </ContentPage>

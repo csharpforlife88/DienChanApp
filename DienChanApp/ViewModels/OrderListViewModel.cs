@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DienChanApp.Services;
 using DienChanApp.Views;
@@ -14,8 +15,8 @@ namespace DienChanApp.ViewModels
         public ICommand CreateOrderCommand { get; private set; }
         public ICommand DeleteOrderCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
+        public ICommand SendOrderReceiptCommand { get; private set; }
         private List<OrderViewModel> _orderHelper;
-        private static readonly RestService _restService = new RestService();
 
 
         public OrderListViewModel()
@@ -23,6 +24,7 @@ namespace DienChanApp.ViewModels
             CreateOrderCommand = new Command(OnCreateOrder);
             DeleteOrderCommand = new Command<OrderViewModel>( o => OnDeleteOrder(o));
             RefreshCommand = new Command(OnRefresh);
+            SendOrderReceiptCommand = new Command<OrderViewModel>(o => OnSendOrderReceipt(o));
 
             RefreshOrderList();
         }
@@ -52,24 +54,57 @@ namespace DienChanApp.ViewModels
 
         private async void OnDeleteOrder(OrderViewModel o)
         {
-            if (!(await DisplayAlert("Confirmation", $"Are you sure to delete order {o.OrderId}?", "Yes", "No"))) return;
+            if (!(await DisplayAlert("Confirmation", $"Are you sure to delete Order {o.OrderId}?", "Yes", "No"))) return;
 
-            var result = await _restService.DeleteOrder(o.OrderId);
+            await Task.Run(async () =>
+             {
+                 IsBusy = true;
 
-            if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                 var result = await _restService.DeleteOrder(o.OrderId);
+
+                 OnRefresh();
+
+                 Device.BeginInvokeOnMainThread(async () =>
+                 {
+                     if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                     {
+                         await DisplayAlert("Warning", "Order delete failed!", "OK");
+                     }
+                     else
+                     {
+                         await DisplayAlert("Confirmation", "Order deleted successfully!", "OK");
+                     }
+                 });
+
+                 IsBusy = false;
+             });
+        }
+
+        private async void OnSendOrderReceipt(OrderViewModel o)
+        {
+            if (!(await DisplayAlert("Confirmation", $"Are you sure to send receipt of order {o.OrderId}?", "Yes", "No"))) return;
+
+
+            await Task.Run(async () =>
             {
-                OnRefresh();
+                IsBusy = true;
 
-                await DisplayAlert("Warning", "Order delete failed!", "OK");
-            }
-            else
-            {
-                _orderHelper.Remove(o);
+                var result = await _restService.SendOrderReceipt(o.OrderId);
 
-                OnSearchOrder();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        await DisplayAlert("Warning", "Order receipt sent failed!", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Confirmation", "Order receipt sent successfully!", "OK");
+                    }
+                });
 
-                await DisplayAlert("Confirmation", "Order deleted successfully!", "OK");
-            }
+                IsBusy = false;
+            });
         }
 
         private void OnRefresh()

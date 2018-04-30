@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DienChanApp.Services;
 using DienChanApp.Views;
@@ -14,7 +15,6 @@ namespace DienChanApp.ViewModels
         public ICommand CreateProductCommand { get; private set; }
         public ICommand DeleteProductCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
-        private static readonly RestService _restSerive = new RestService();
         private List<ProductViewModel> _productHelper;
 
 
@@ -24,25 +24,27 @@ namespace DienChanApp.ViewModels
             DeleteProductCommand = new Command<ProductViewModel>(o => OnDeleteProduct(o));
             RefreshCommand = new Command(OnRefresh);
 
-            Products = new ObservableCollection<ProductViewModel>();
+            RefreshProductList();
+        }
 
-            GetProducts();
+        private async void RefreshProductList(ProductViewModel o = null)
+        {
+            _productHelper = MapService.ToViewModels(await _restService.GetProducts());
 
             Products = new ObservableCollection<ProductViewModel>(_productHelper);
         }
 
-        private async void GetProducts()
-        {
-            _productHelper  = MapService.ToViewModels(await _restSerive.GetProducts());   
-        }
-
         private async void OnCreateProduct()
         {
+            MessagingCenter.Subscribe<ProductViewModel>(this, "ProductListRefresh", RefreshProductList);
+
             await Navigation.PushAsync(new ProductView());
         }
 
         private async void OnShowProduct()
         {
+            MessagingCenter.Subscribe<ProductViewModel>(this, "ProductListRefresh", RefreshProductList);
+
             await Navigation.PushAsync(new ProductView(SelectedProduct));
 
             SelectedProduct = null;
@@ -55,18 +57,39 @@ namespace DienChanApp.ViewModels
             await Navigation.PopAsync();
         }
 
-        private async void OnDeleteProduct(ProductViewModel o)
+        private async void OnDeleteProduct(ProductViewModel p)
         {
-            if (!(await DisplayAlert("Confirmation", $"Are you sure to delete Product {o.ProductId}?", "Yes", "No"))) return;
+            if (!(await DisplayAlert("Confirmation", $"Are you sure to delete Product {p.Name}?", "Yes", "No"))) return;
 
-            _productHelper.Remove(o);
+            await Task.Run(async () =>
+            {
+                IsBusy = true;
 
-            OnSearchProduct();
+                var result = await _restService.DeleteProduct(p.ProductId);
+
+                OnRefresh();
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        await DisplayAlert("Warning", "Product delete failed!", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Confirmation", "Product deleted successfully!", "OK");
+                    }
+                });
+
+                IsBusy = false;
+            });
         }
 
         private void OnRefresh()
         {
             IsRefreshing = true;
+
+            RefreshProductList();
 
             OnSearchProduct();
 

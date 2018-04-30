@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.ProductView">
-    <TableView>
-        <TableRoot>
-            <TableSection>
-                <EntryCell Label="Product ID" Text="{Binding ProductId}" />
-                <EntryCell Label="Product Name" Text="{Binding Name}" />
-                <EntryCell Label="Product Description" Text="{Binding Description}" />
-                <EntryCell Label="Price" Text="{Binding Price}" Keyboard="Numeric"/>
-                <EntryCell Label="Weight" Text="{Binding Weight}" Keyboard="Numeric"/>
-                <EntryCell Label="Category" Text="{Binding Category}" />
-                <EntryCell Label="Image" Text="{Binding Image}" />
-            </TableSection>
-        </TableRoot>
-    </TableView>
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <TableView HasUnevenRows="true">
+            <TableRoot>
+                <TableSection>
+                    <EntryCell Label="Product ID" Text="{Binding ProductId}" IsEnabled="false" />
+                    <EntryCell Label="Product Name" Text="{Binding Name}" />
+                    <ViewCell>
+                        <StackLayout Padding="13,5">
+                            <Label Text="Product Description" />
+                            <Editor Text="{Binding Description}" VerticalOptions="FillAndExpand" Keyboard="Chat" />
+                        </StackLayout>
+                    </ViewCell>
+                    <EntryCell Label="Price" Text="{Binding Price}" Keyboard="Numeric" />
+                    <EntryCell Label="Weight" Text="{Binding Weight}" Keyboard="Numeric" />
+<!--                    <EntryCell Label="Category" Text="{Binding Category}" />-->
+                    <ViewCell Height="270">
+                        <StackLayout Padding="13,5" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+                            <Image Source="{Binding ImageUrl}" WidthRequest="200" HeightRequest="200" />
+                            <Button Text="Choose Image" Command="{Binding ChooseImageCommand}" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+                <TableSection>
+                    <ViewCell Height="140">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Start">
+                            <Button Text="Save" Command="{Binding SaveCommand}" />
+                            <Button Text="Cancel" Command="{Binding CancelCommand}" />
+                        </StackLayout>
+                    </ViewCell>
+                </TableSection>
+            </TableRoot>
+        </TableView>
+        <ActivityIndicator BackgroundColor="Black" Color="White" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0.5, 0.5, 25, 25" AbsoluteLayout.LayoutFlags="PositionProportional">
+        </ActivityIndicator>
+    </AbsoluteLayout>
 </ContentPage>

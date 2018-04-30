@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DienChanApp.Models;
+using DienChanApp.Services;
 using DienChanApp.Views;
 using Xamarin.Forms;
 
@@ -23,6 +24,7 @@ namespace DienChanApp.ViewModels
             CancelCommand = new Command(OnCancel);
 
             Items = new ObservableCollection<ItemViewModel>();
+            Customer = new CustomerViewModel();
         }
 
         private static int _itemChangedSub = 0;
@@ -46,6 +48,30 @@ namespace DienChanApp.ViewModels
 
             //call api to update order
 
+            await Task.Run(async () =>
+            {
+                IsBusy = true;
+
+                var result = OrderId == 0 
+                    ? (await _restService.CreateOrder(MapService.ToModel(this)))
+                    :(await _restService.UpdateOrder(MapService.ToModel(this)));
+
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        await DisplayAlert("Warning", "Order save failed!", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Confirmation", "Order save successfully!", "OK");
+                    }
+                });
+
+                IsBusy = false;
+            });
+
+
             MessagingCenter.Send(this, "OrderListRefresh");
 
             await Navigation.PopAsync();
@@ -63,57 +89,84 @@ namespace DienChanApp.ViewModels
 
         private async Task<bool> IsValidated()
         {
-            if(Customer.FirstName.Length == 0)
+            if(string.IsNullOrEmpty(Customer.FirstName))
             {
-                await DisplayAlert("Confirmation", $"First Name is missing!", "OK"); 
+                await DisplayAlert("Warning", $"First Name is missing!", "OK"); 
 
                 return false;
             }
 
-            if (Customer.LastName.Length == 0)
+            if (string.IsNullOrEmpty(Customer.LastName))
             {
-                await DisplayAlert("Confirmation", $"Last Name is missing!", "OK");
+                await DisplayAlert("Warning", $"Last Name is missing!", "OK");
 
                 return false;
             }
 
-            if (Customer.Address1.Length == 0)
+            if (string.IsNullOrEmpty(Customer.Address1))
             {
-                await DisplayAlert("Confirmation", $"Address is missing!", "OK");
+                await DisplayAlert("Warning", $"Address is missing!", "OK");
 
                 return false;
             }
 
-            if (Customer.City.Length == 0)
+            if (string.IsNullOrEmpty(Customer.City))
             {
-                await DisplayAlert("Confirmation", $"City is missing!", "OK");
+                await DisplayAlert("Warning", $"City is missing!", "OK");
 
                 return false;
             }
 
-            if (Customer.Email.Length == 0)
+            if (string.IsNullOrEmpty(Customer.Email))
             {
-                await DisplayAlert("Confirmation", $"Email is missing!", "OK");
+                await DisplayAlert("Warning", $"Email is missing!", "OK");
 
                 return false;
             }
 
-            if (Customer.Country.Length == 0)
+            if(!IsValidEmail(Customer.Email))
             {
-                await DisplayAlert("Confirmation", $"Country is missing!", "OK");
+                await DisplayAlert("Warning", $"Email is invalid!", "OK");
 
                 return false;
             }
 
-            if (Customer.Phone.Length == 0)
+            if (string.IsNullOrEmpty(Customer.Country))
             {
-                await DisplayAlert("Confirmation", $"Phone is missing", "OK");
+                await DisplayAlert("Warning", $"Country is missing!", "OK");
+
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(Customer.Phone))
+            {
+                await DisplayAlert("Warning", $"Phone is missing!", "OK");
+
+                return false;
+            }
+
+            if(Items.Count == 0)
+            {
+                await DisplayAlert("Warning", $"You need to at least add an item!", "OK");
 
                 return false;
             }
 
             return true;
                 
+        }
+
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private int _orderId;
@@ -172,7 +225,7 @@ namespace DienChanApp.ViewModels
             set
             {
                 SetProperty(ref _tax, value);
-                //OrderValueChanged();
+                OrderValueChanged();
             }
         }
 

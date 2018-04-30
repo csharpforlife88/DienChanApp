@@ -9,7 +9,7 @@ namespace DienChanApp.Views
     {
         public ProductView(ProductViewModel vm = null)
         {
-            BindingContext = vm;
+            BindingContext = vm ?? new ProductViewModel();
 
             InitializeComponent();
         }

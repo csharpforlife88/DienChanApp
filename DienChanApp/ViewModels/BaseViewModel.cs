@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using DienChanApp.Services;
 using Xamarin.Forms;
 
 namespace DienChanApp
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        protected readonly RestService _restService;
+
         public async Task<bool> DisplayAlert(string title, string message, string ok, string cancel)
         {
             return await Application.Current.MainPage.DisplayAlert(title, message, ok, cancel);
@@ -21,9 +24,16 @@ namespace DienChanApp
 
         public INavigation Navigation { 
             get 
-            { 
-                return Application.Current.MainPage.Navigation; 
+            {
+                if (Application.Current.MainPage == null) return null;
+
+                return Application.Current.MainPage.Navigation;
             }
+        }
+
+        public BaseViewModel()
+        {
+            _restService = new RestService(Navigation);
         }
 
         bool isBusy = false;

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography;
+using System.Text;
 using DienChanApp.Models;
 using DienChanApp.ViewModels;
+using Xamarin.Forms;
 
 namespace DienChanApp.Services
 {
@@ -14,13 +17,13 @@ namespace DienChanApp.Services
             {
                 id = vm.ID,
                 username = vm.UserName,
-                password = vm.Password,
-                permissionId = vm.PermissionId,
+                password = ComputeHash(vm.Password),
+                permissionId = 1,
                 permission = vm.Permission,
                 firstName = vm.FirstName,
                 lastName = vm.LastName,
                 email = vm.Email,
-                createdDate = vm.CreatedDate
+                createdDate = DateTime.Now
             };
         }
 
@@ -46,7 +49,7 @@ namespace DienChanApp.Services
             {
                 itemId = vm.ItemId,
                 quantity = vm.Quantity,
-                updateDate = vm.UpdateDate,
+                updateDate = DateTime.Now,
                 productId = vm.ProductId,
                 name = vm.Name,
                 categoryName = vm.CategoryName,
@@ -105,7 +108,7 @@ namespace DienChanApp.Services
                 state = vm.State,
                 zip = vm.Zip,
                 country = vm.Country,
-                updateDate = vm.UpdateDate
+                updateDate = DateTime.Now
             };
         }
 
@@ -181,9 +184,11 @@ namespace DienChanApp.Services
                 description = vm.Description,
                 price = vm.Price,
                 weight = vm.Weight,
-                categoryId = vm.CategoryId,
+                categoryId = 1,//vm.CategoryId,
                 category = vm.Category,
-                imageUrl = vm.ImageUrl
+                imageUrl = vm.ImageUrl,
+                image = vm.Image,
+                isImageUpdate = vm.IsImageUpdate
             };
         }
 
@@ -218,6 +223,25 @@ namespace DienChanApp.Services
             ms.ForEach(m => result.Add(ToViewModel(m)));
 
             return result;
+        }
+
+        private static string ComputeHash(string password)
+        {
+            using (var md5Hash = MD5.Create())
+            {
+                var bytes = Encoding.ASCII.GetBytes(password);
+
+                var data = md5Hash.ComputeHash(bytes);
+
+                var sb = new StringBuilder();
+
+                foreach (var d in data)
+                {
+                    sb.Append(d.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
         }
     }
 }

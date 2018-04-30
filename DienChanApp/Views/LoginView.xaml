@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.LoginView" NavigationPage.HasNavigationBar="false">
-    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-        <Entry Text="{Binding UserName}" Placeholder="username">
-            <Entry.Keyboard>
-                <Keyboard x:FactoryMethod="Create">
-                    <x:Arguments>
-                        <KeyboardFlags>None</KeyboardFlags>
-                    </x:Arguments>
-                </Keyboard>
-            </Entry.Keyboard>
-        </Entry>
-        <Entry Text="{Binding Password}" IsPassword="true" Placeholder="password" />
-        <Button Text="Login" Command="{Binding LoginCommand}" />
-        <Button Text="Register" Command="{Binding RegisterCommand}" />
-    </StackLayout>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.LoginView" NavigationPage.HasNavigationBar="false"
+             xmlns:local="clr-namespace:DienChanApp.MarkupExtensions">
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BackgroundColor="White">
+        <Image Source="{local:EmbeddedImage DienChanApp.Images.background2.jpg}" Aspect="AspectFill" 
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All"/>
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Padding="5,5">
+            <Entry Text="{Binding UserName}" Placeholder="username">
+                <Entry.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>None</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Entry.Keyboard>
+            </Entry>
+            <Entry Text="{Binding Password}" IsPassword="true" Placeholder="password" />
+            <Button Text="Login" Command="{Binding LoginCommand}" />
+            <Button Text="Register" Command="{Binding RegisterCommand}" />
+        </StackLayout>
+        <ActivityIndicator BackgroundColor="Black" Color="White" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0.5, 0.5, 25, 25" AbsoluteLayout.LayoutFlags="PositionProportional">
+        </ActivityIndicator>
+    </AbsoluteLayout>
 </ContentPage>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using DienChanApp.ViewModels;
 using Xamarin.Forms;
 
 namespace DienChanApp.Views
@@ -9,6 +9,8 @@ namespace DienChanApp.Views
     {
         public RegisterView()
         {
+            BindingContext = new UserViewModel();
+
             InitializeComponent();
         }
     }

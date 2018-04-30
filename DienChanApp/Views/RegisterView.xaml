@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.RegisterView">
-	<StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-        <Label Text="RegisterView"/>
-    </StackLayout>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="DienChanApp.Views.RegisterView" xmlns:local="clr-namespace:DienChanApp.Services" NavigationPage.HasNavigationBar="false">
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All" Padding="5,5">
+            <TableView Intent="Form" HasUnevenRows="true">
+                <TableRoot>
+                    <TableSection Title="Account Information">
+                        <EntryCell Label="First name" Text="{Binding FirstName}" Placeholder="First name" />
+                        <EntryCell Label="Last name" Text="{Binding LastName}" Placeholder="Last name" />
+                        <EntryCell Label="Email" Text="{Binding Email}" Placeholder="Email">
+                            <EntryCell.Keyboard>
+                                <Keyboard x:FactoryMethod="Create">
+                                    <x:Arguments>
+                                        <KeyboardFlags>None</KeyboardFlags>
+                                    </x:Arguments>
+                                </Keyboard>
+                            </EntryCell.Keyboard>
+                        </EntryCell>
+                        <EntryCell Label="Username" Text="{Binding UserName}" Placeholder="Username">
+                            <EntryCell.Keyboard>
+                                <Keyboard x:FactoryMethod="Create">
+                                    <x:Arguments>
+                                        <KeyboardFlags>None</KeyboardFlags>
+                                    </x:Arguments>
+                                </Keyboard>
+                            </EntryCell.Keyboard>
+                        </EntryCell>
+                        <ViewCell>
+                            <StackLayout Padding="13,5">
+                                <Entry Text="{Binding Password}" IsPassword="true" Placeholder="Password" />
+                                <Entry Text="{Binding RetypePassword}" IsPassword="true" Placeholder="Re-type password" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell Height="110">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Button Text="Sign up" Command="{Binding SignupCommand}" />
+                                <Button Text="Cancel" Command="{Binding CancelCommand}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+        </StackLayout>
+        <ActivityIndicator BackgroundColor="Black" Color="White" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0.5, 0.5, 25, 25" AbsoluteLayout.LayoutFlags="PositionProportional">
+        </ActivityIndicator>
+    </AbsoluteLayout>
 </ContentPage>
